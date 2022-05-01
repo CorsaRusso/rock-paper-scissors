@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <script>
+            let computerPlay = () => {
+                let random = Math.floor(Math.random() * 3);
+                if (random === 0) {
+                    return "ROCK";
+                } else if (random === 1) {
+                    return "PAPER";
+                } else {
+                    return "SCISSOR";
+                }
+            };
+
+            let lower = string => string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+            let playRound = (playerSelection, computerSelection) => {
+                let comp = computerSelection;
+                let player = playerSelection.toUpperCase();
+                if(comp === player) {
+                    return `It's a Tie! ${lower(comp)} ties with ${lower(player)}`
+                } else if (comp === "SCISSOR" && player === "ROCK") {
+                    return "You Win! " + lower(player) + " beats " + lower(comp);
+                } else if (comp === "ROCK" && player === "PAPER") {
+                    return "You Win! " + lower(player) + " beats " + lower(comp);
+                } else if (comp === "PAPER" && player === "SCISSOR") {
+                    return "You Win! " + lower(player) + " beats " + lower(comp);
+                } else {
+                    return "You Lose! " + lower(comp) + " beats " + lower(player);
+                }
+            };
+
+            function game () {
+                for(let i = 0; i < 5; i++){
+                    let play = prompt("Choose Rock Paper or Scissor");
+                    console.log(play);
+                    let comp = computerPlay();
+                    (playRound(play, comp));
+                }
+            }
+            game();
+        </script>
+    </body>
+</html>
