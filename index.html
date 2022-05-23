@@ -1,9 +1,43 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="style.css">
 
     </head>
     <body>
+        <div>
+            <button class = "rock">
+                <h1>R</h1>
+                <p>Rock</p>
+            </button>
+            <button class = "paper">
+                <h1>P</h1>
+                <p>Paper</p>
+            </button>
+            <button class="scissor">
+                <h1>S</h1>
+                <p>Scissors</p>
+            </button>
+        </div>
+        <div>
+            <p id="result">
+
+            </p>
+        </div>
+        <div>
+            <p id = "score"></p>
+        </div>
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <p id="mtext">Some text in the Modal..</p>
+              <button id="restart">Play Again</button>
+            </div>
+          
+          </div>
+
         <script>
             let computerPlay = () => {
                 let random = Math.floor(Math.random() * 3);
@@ -23,25 +57,88 @@
                 if(comp === player) {
                     return `It's a Tie! ${lower(comp)} ties with ${lower(player)}`
                 } else if (comp === "SCISSOR" && player === "ROCK") {
+                    pscore++;
                     return "You Win! " + lower(player) + " beats " + lower(comp);
                 } else if (comp === "ROCK" && player === "PAPER") {
+                    pscore++;
                     return "You Win! " + lower(player) + " beats " + lower(comp);
                 } else if (comp === "PAPER" && player === "SCISSOR") {
+                    pscore++;
                     return "You Win! " + lower(player) + " beats " + lower(comp);
                 } else {
+                    cscore++;
                     return "You Lose! " + lower(comp) + " beats " + lower(player);
                 }
             };
+            let pscore = 0;
+            let cscore = 0;
+            let scissor = document.querySelector(".scissor");
+            let rock = document.querySelector(".rock");
+            let paper = document.querySelector(".paper");
 
-            function game () {
+            function handlewin(){
+                if(pscore === 5){
+                    document.getElementById("mtext").innerHTML = "You Win!";
+                } else {
+                    document.getElementById("mtext").innerHTML = "You Lose! Better luck next time!";
+                }
+                modal.style.display = "block";
+                return;
+            }
+            let modal = document.getElementById("myModal");
+            let restart = document.getElementById("restart");
+            let scorehtml = document.getElementById("score");
+            let result = document.getElementById("result");
+            restart.onclick = function() {
+                cscore = 0;
+                pscore = 0;
+                scorehtml.innerHTML = "";
+                result.innerHTML = "";
+                modal.style.display = "none";
+
+            }
+            
+            // Get the <span> element that closes the modal
+            let span = document.getElementsByClassName("close")[0];
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+            function playgame(e){
+
+                const player = e.target.className;
+                if (player !== "scissor" && player !== "rock" && player !=="paper"){
+                    return;
+                }
+                const result_display = playRound(player, computerPlay());
+                if(cscore > 5 || pscore > 5){
+                    handlewin();
+                    return;
+                }
+                result.innerHTML = result_display;
+                let score = pscore + " to " + cscore;
+                scorehtml.innerHTML = score;
+                if(cscore === 5 || pscore === 5){
+                    handlewin();
+                    return;
+                }
+            }
+            window.addEventListener("click", playgame)
+
+
+            /*function game () {
                 for(let i = 0; i < 5; i++){
                     let play = prompt("Choose Rock Paper or Scissor");
                     console.log(play);
                     let comp = computerPlay();
-                    (playRound(play, comp));
+                    console.log(playRound(play, comp));
                 }
             }
-            game();
+            game();*/
         </script>
     </body>
 </html>
