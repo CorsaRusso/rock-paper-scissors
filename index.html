@@ -5,26 +5,26 @@
 
     </head>
     <body>
-        <div>
+        <div class = "inputs">
             <button class = "rock">
-                <h1>R</h1>
-                <p>Rock</p>
+                <h1 class = "rock">R</h1>
+                <p class = "rock">Rock</p>
             </button>
             <button class = "paper">
-                <h1>P</h1>
-                <p>Paper</p>
+                <h1 class = "paper">P</h1>
+                <p class = "paper">Paper</p>
             </button>
             <button class="scissor">
-                <h1>S</h1>
-                <p>Scissors</p>
+                <h1 class="scissor">S</h1>
+                <p class="scissor">Scissors</p>
             </button>
         </div>
-        <div>
+        <div class = "results">
             <p id="result">
 
             </p>
         </div>
-        <div>
+        <div class = "scores">
             <p id = "score"></p>
         </div>
         <div id="myModal" class="modal">
@@ -55,19 +55,13 @@
                 let comp = computerSelection;
                 let player = playerSelection.toUpperCase();
                 if(comp === player) {
-                    return `It's a Tie! ${lower(comp)} ties with ${lower(player)}`
-                } else if (comp === "SCISSOR" && player === "ROCK") {
+                    return `It's a Tie! <b>${lower(comp)}</b> ties with <b>${lower(player)}</b>`
+                } else if (comp === "SCISSOR" && player === "ROCK" || comp === "ROCK" && player === "PAPER" || comp === "PAPER" && player === "SCISSOR") {
                     pscore++;
-                    return "You Win! " + lower(player) + " beats " + lower(comp);
-                } else if (comp === "ROCK" && player === "PAPER") {
-                    pscore++;
-                    return "You Win! " + lower(player) + " beats " + lower(comp);
-                } else if (comp === "PAPER" && player === "SCISSOR") {
-                    pscore++;
-                    return "You Win! " + lower(player) + " beats " + lower(comp);
+                    return "You Win! <b>" + lower(player) + "</b> beats <b>" + lower(comp) + "</b>";
                 } else {
                     cscore++;
-                    return "You Lose! " + lower(comp) + " beats " + lower(player);
+                    return "You Lose! <b>" + lower(comp) + "</b> beats <b>" + lower(player) + "</b>";
                 }
             };
             let pscore = 0;
@@ -77,8 +71,9 @@
             let paper = document.querySelector(".paper");
 
             function handlewin(){
+                won = true;
                 if(pscore === 5){
-                    document.getElementById("mtext").innerHTML = "You Win!";
+                    document.getElementById("mtext").innerHTML = "Congratulations! You win this time!";
                 } else {
                     document.getElementById("mtext").innerHTML = "You Lose! Better luck next time!";
                 }
@@ -89,12 +84,14 @@
             let restart = document.getElementById("restart");
             let scorehtml = document.getElementById("score");
             let result = document.getElementById("result");
+            let won = false;
             restart.onclick = function() {
                 cscore = 0;
                 pscore = 0;
                 scorehtml.innerHTML = "";
                 result.innerHTML = "";
                 modal.style.display = "none";
+                won = false;
 
             }
             
@@ -109,24 +106,36 @@
                 }
             }
             function playgame(e){
-
                 const player = e.target.className;
                 if (player !== "scissor" && player !== "rock" && player !=="paper"){
                     return;
                 }
-                const result_display = playRound(player, computerPlay());
-                if(cscore > 5 || pscore > 5){
-                    handlewin();
-                    return;
+                e.target.focus();
+                if(cscore <= 5 && pscore <= 5 && won == false){
+                    const result_display = playRound(player, computerPlay());
+                    result.innerHTML = result_display;
+                    let score = "<div class=\"scoreboard\"><b>You</b><div>" + pscore + " - " + cscore + "</div><b>Computer</b   ></div>";
+                    scorehtml.innerHTML = score;
                 }
-                result.innerHTML = result_display;
-                let score = pscore + " to " + cscore;
-                scorehtml.innerHTML = score;
-                if(cscore === 5 || pscore === 5){
+                if(cscore >= 5 || pscore >= 5){
                     handlewin();
                     return;
                 }
             }
+            function clickbutton(e) {
+                const key = e.keyCode;
+                if(key !== 82 && key !== 80 && key !== 83){
+                    return;
+                }
+                if(key === 82){
+                    rock.click();
+                } else if (key === 80){
+                    paper.click();
+                } else {
+                    scissor.click();
+                }
+            }
+            window.addEventListener('keydown',clickbutton);
             window.addEventListener("click", playgame)
 
 
