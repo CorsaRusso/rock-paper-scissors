@@ -37,6 +37,7 @@ h1 {
 .inputs button:active, .inputs button:focus{
   background: rgba(255, 224, 86, 0.834);
   transition: all .05s ease;
+  outline: none;
   box-shadow: 0 0 rgb(69, 69, 69), inset 3px 3px rgb(125, 104, 7);
 }
 
@@ -97,6 +98,7 @@ h1 {
     color: black;
     text-decoration: none;
     cursor: pointer;
+    outline: none;
   }
 
   .modal button {
