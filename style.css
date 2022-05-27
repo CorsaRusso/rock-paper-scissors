@@ -124,3 +124,23 @@ h1 {
   transition: all .05s ease;
   box-shadow: 0 0 rgb(69, 69, 69), inset 3px 3px rgb(125, 104, 7);
 }
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 5rem;
+  width: 100%;
+  text-align: center;
+}
+
+
+
+.footer-text {
+  text-decoration: none;
+  color: black;
+  font-weight: normal;
+}
+.footer-text:hover{
+  color: rgb(39, 39, 39);
+  font-weight: bold;
+}
